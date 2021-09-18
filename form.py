@@ -26,3 +26,8 @@ class CourseID(FlaskForm):
     courseID = StringField('Course Number',
                            validators = [DataRequired(), validate_course_num])
     submit = SubmitField('Enter')
+
+class ReturnButton(FlaskForm):
+    submit = SubmitField('Enter')
+    
+    
