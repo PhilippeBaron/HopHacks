@@ -22,6 +22,7 @@ course_nums = pd.read_csv("courseNums.csv")
 nums = course_nums.loc[:,"courseNum"]
 
 
+
 for i in nums:
     url = "https://sis.jhu.edu/api/classes/" + i + "/?key=XV4qXo28mAdSEzyFXQi2tty7Kp3oEvmY"
     req = requests.get(url)  
@@ -33,6 +34,8 @@ for i in nums:
     j = conts[-1]
     # Get the section details in k in order to index
     k = j['SectionDetails'][0]
+
+    
     
     info["courseNum"].append(i)
     info["courseName"].append(j["Title"])

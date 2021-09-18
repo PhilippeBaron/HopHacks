@@ -18,7 +18,7 @@ contents = req.json()
 
 # Want a set for course nums
 course_nums = set()
-
+course_names = set()
 # A dictionary for al the contents
 
 
@@ -28,6 +28,7 @@ for i in contents:
     department = False
     term = False
     credit = False
+    name = False
     
     if (i['Department'] == 'EN Applied Mathematics & Statistics' 
         or i['Department'] == 'EN Biomedical Engineering'
@@ -50,11 +51,15 @@ for i in contents:
         
     if (not '-' in i['Credits']):
         credit = True
+        
+    if i['Title'] not in course_names:
+        name = True
     
-    if (department and term and credit and ('Undergraduate' in  i['Level'])):
+    if (department and term and credit and name and ('Undergraduate' in  i['Level'])):
         temp = i['OfferingName'].replace('.',"")
         temp = temp + '01'
         course_nums.add(temp)
+        course_names.add(i['Title'])
  
 # Convert array to lsit    
 course_nums = list(course_nums)     
@@ -63,51 +68,7 @@ numbers = {'courseNum': course_nums}
 df = pd.DataFrame(numbers)
 df.to_csv('courseNums.csv') 
 
-  
-"""
-url = "https://sis.jhu.edu/api/classes/" + course_nums[-1] + "/?key=XV4qXo28mAdSEzyFXQi2tty7Kp3oEvmY"
-req = requests.get(url)  
-    
-# Conts will include information about all semesters of the course
-conts = req.json()
-    
-# j will be information from the last semester
-j = conts[-1]
-# Get the section details in k in order to index
-k = j['SectionDetails'][0]
-    
-info["courseNum"].append(course_nums[-1])
-info["courseName"].append(j["Title"])
-info["description"].append(k["Description"])
-
-print(info)
-"""
-
-
-"""
-for i in course_nums:
-    # Get URL of each class
-    url = "https://sis.jhu.edu/api/classes/" + i + "/?key=XV4qXo28mAdSEzyFXQi2tty7Kp3oEvmY"
-    req = requests.get(url)  
-    
-    # Conts will include information about all semesters of the course
-    conts = req.json()
-    
-    # j will be information from the last semester
-    j = conts[-1]
-    # Get the section details in k in order to index
-    k = j['SectionDetails'][0]
-    
-    temp = [j["Title"],k["Description"]]
-    info["courseNum"].append(i)
-    info["courseName"].append(j["Title"])
-    info["description"].appned(k["Description"])
  
-"""    
-        
-#print(info) 
-#print(len(info))   
-#print(len(course_nums))
 
 
 
