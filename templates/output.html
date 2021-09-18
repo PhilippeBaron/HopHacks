@@ -8,22 +8,34 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel = "stylesheet" type = "text/css" href = "{{url_for('static', filename='main.css')}}">
 </head>
 <body>
 
-<div class = "container"> 
-    <p> {{course_num}} </p>
+    <div class = "container"> 
+        <div class = "content-section"> 
+        <p> Course Number: {{course_num}} </p>
+    
+        <p> Course Title: {{info.courseName}} </p>
+        <p> Course Description: {{info.description}} </p>
+        {%for i in info.prereqs%}
+            {%for j in i%}
+                {% if j == 'Description'%}
+                    <p>{{i[j]}}</p>
+                {% endif %}
+            {% endfor %} 
+        {% endfor %}  
+        <form method="POST" action = "/">
+            <div class="form-group">
+                 <input type="submit" value="VALUE1" name="action1"/>
+            </div>
+        </form>   
+        </div>    
+    </div>
+ <!-- Option 2: Separate Popper and Bootstrap JS -->
 
-    <p> {{info.courseName}} </p>
-    <p> {{info.description}} </p>
-    {%for i in info.prereqs%}
-        {%for j in i%}
-            {% if j == 'Description'%}
-                <p>{{i[j]}}</p>
-            {% endif %}
-        {% endfor %} 
-    {% endfor %}     
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-W8fXfP3gkOKtndU4JGtKDvXbO53Wy8SZCQHczT5FMiiqmQfUpWbYdTil/SxwZgAN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
 
 </body>
 </html>
