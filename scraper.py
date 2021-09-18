@@ -34,8 +34,15 @@ for i in contents:
         or i['Department'] == 'Computer Engineering'
         or i['Department'] == 'Computer Science'
         or i['Department'] == 'Electrical and Computer Engineering'
-        ):
+        or i['Department'] == 'Electrical Engineering'
+        or i['Department'] == 'Engineering Mechanics' 
+        or i['Department'] == 'Environmental Engineering'
+        or i['Department'] == 'General Engineering'
+        or i['Department'] == 'Materials Science and Engineering'
+        or i['Department'] == 'Mechanical Engineering'):   
+        
         department = True
+    if (i['Term'])   
     
     if (i['Department']=='EN Applied Mathematics & Statistics') and (i['Term'] == 'Fall 2021')and ('Undergraduate' in  i['Level']):
         temp = i['OfferingName'].replace('.',"")
