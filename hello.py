@@ -9,6 +9,7 @@ Created on Sat Sep 18 13:06:58 2021
 from flask import Flask, render_template, flash, redirect, url_for, request
 from form import CourseID, ReturnButton
 import requests
+import getSimilarClasses
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '123456789'
@@ -48,10 +49,17 @@ def output(course_num):
     info["courseName"] = j["Title"]
     info["description"] = k["Description"]
     info["prereqs"] = k["Prerequisites"]
+    
+    
+    classes, codes = getSimilarClasses.getSimilarClasses(course_num)
+    classes_and_codes = []
+    for i in range(0, len(classes)):
+       classes_and_codes.append(classes[i] + ": " + codes[i])
         
 
     return render_template('output.html', title = 'Output',
-                           course_num = course_num, info = info, button = ret)
+                           course_num = course_num, info = info, button = ret,
+                           classes = classes_and_codes)
     
 
 

@@ -25,6 +25,13 @@
                 {% endif %}
             {% endfor %} 
         {% endfor %}  
+        </div>
+        <div class = "content-section">
+        <h3> Suggested Classes: </h3>
+        {%for j in classes%}
+            <p>{{j}}</p>
+        {% endfor %}
+        
         <form method="POST" action = "/">
             <div class="form-group">
                  <input type="submit" value="VALUE1" name="action1"/>

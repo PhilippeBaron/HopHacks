@@ -28,6 +28,6 @@ class CourseID(FlaskForm):
     submit = SubmitField('Enter')
 
 class ReturnButton(FlaskForm):
-    submit = SubmitField('Enter')
+    submit = SubmitField('Enter', render_kw={"onclick": "return redirect(url_for('home')"})
     
     
