@@ -31,3 +31,8 @@ class ReturnButton(FlaskForm):
     submit = SubmitField('Enter', render_kw={"onclick": "return redirect(url_for('home')"})
     
     
+class Course(FlaskForm):
+    courseID = StringField('Course Number',
+                           validators = [DataRequired()])
+    submit = SubmitField('Enter')
+    

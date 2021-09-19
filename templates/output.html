@@ -18,6 +18,8 @@
     
         <p> Course Title: {{info.courseName}} </p>
         <p> Course Description: {{info.description}} </p>
+        
+        <h6> Course Prerequisites </h6>
         {%for i in info.prereqs%}
             {%for j in i%}
                 {% if j == 'Description'%}
@@ -31,12 +33,20 @@
         {%for j in classes%}
             <p>{{j}}</p>
         {% endfor %}
-        
-        <form method="POST" action = "/">
-            <div class="form-group">
-                 <input type="submit" value="VALUE1" name="action1"/>
-            </div>
-        </form>   
+          <form method="POST" action = "">
+                {{ form.hidden_tag() }} 
+            
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">Input your class number in SIS format</legend>
+                    <div class="form-group">
+                        {{form.courseID.label(class="form-control-label")}}
+                        {{form.courseID(class="form-control form-control")}}
+                    </div>     
+                </fieldset>
+                <div id="Submit" class="form-group">
+                    {{form.submit()}}
+                </div>
+            </form>
         </div>    
     </div>
  <!-- Option 2: Separate Popper and Bootstrap JS -->
