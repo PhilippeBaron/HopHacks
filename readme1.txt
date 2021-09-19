@@ -1,1 +1,2 @@
-This is an example of a readme
+To run this program run the following in terminal:
+"python hello.py"
