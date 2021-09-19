@@ -15,13 +15,18 @@ import csv
 stopwords = np.load('stopwords.npy')
 
 def getData():
-    descriptions = pd.read_excel('courseInfo.xlsx')
+    
+    descriptions = pd.read_csv('courseInfo.csv')
+    
 
     descriptions = descriptions[descriptions.description.notnull()]
+
 
     desc1 = list(descriptions['description'].values)
     course_name1 = list(descriptions['courseName'].values)
     course_cod1 = list(descriptions['courseNum'].values)
+
+    #print(course_name1)    
 
     return desc1, course_name1, course_cod1
 
@@ -34,15 +39,24 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def getSimilarClasses(code, range, feedback, a, b, c):
+def getSimilarClasses(code, range1=5,
+                      a=0.5, b=0.2, c=0.3):
     courseDescriptions, courseNames, courseCodes = getData()
-    classIndex = np.where(courseCodes==code)
-
+    
+    classIndex = 0
+    for i in range(0, len(courseCodes)):
+        if courseCodes[i] == code:
+            classIndex = i
+    
+    #classIndex = np.where(courseCodes==code)
+  
+    
     desc_all = ['']
     title_all = ['']
 
     N_samples = len(courseDescriptions)
-    print(range(N_samples))
+    feedback=np.zeros([N_samples, N_samples])
+    #print(range(N_samples))
     for i in range(0, N_samples):
         desc_all += filtering([courseDescriptions[i]])
         title_all += filtering([courseNames[i]])
@@ -64,7 +78,7 @@ def getSimilarClasses(code, range, feedback, a, b, c):
     D_inv = np.diag(1.0 / (D))
     K1_norm = D_inv @ K1_nod
 
-    Vectorst = np.zeros([N_samples, N_voc])
+    Vectorst = np.zeros([N_samples, len(vocc)])
 
     for i in range(N_samples):
         Vectorst[i, :] = vectorizer.transform([courseNames[i]]).toarray().ravel()
@@ -76,9 +90,21 @@ def getSimilarClasses(code, range, feedback, a, b, c):
     K1_normt = D_invt @ K1_nodt
 
     FS = a * K1_nod + b * sigmoid(feedback) + c * K1_nodt
+    
+
 
     sortedIndices = np.argsort(FS[classIndex, :])
+    
+    
+    courseNames = np.array(courseNames)
     courseNames = courseNames[sortedIndices]
+    
+    courseCodes = np.array(courseCodes)
+    courseCodes = courseCodes[sortedIndices]
 
-    return courseNames[-range:]
+
+    return courseNames[-range1:], courseCodes[-range1:]
+
+#classes = getSimilarClasses('EN.530.327')
+#print(classes)
 
