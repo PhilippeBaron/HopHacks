@@ -7,7 +7,7 @@ Created on Sat Sep 18 13:06:58 2021
 """
 
 from flask import Flask, render_template, flash, redirect, url_for, request
-from form import CourseID, ReturnButton
+from form import CourseID, ReturnButton, Course
 import requests
 import getSimilarClasses
 
@@ -29,9 +29,6 @@ def home():
 
 @app.route("/output/<course_num>", methods=['GET', 'POST'])
 def output(course_num):
-    
-    ret = ReturnButton()
-    
     
     course = course_num.replace('.','') + '01'
     url = "https://sis.jhu.edu/api/classes/" + course + "/?key=XV4qXo28mAdSEzyFXQi2tty7Kp3oEvmY"
@@ -56,13 +53,14 @@ def output(course_num):
     for i in range(0, len(classes)):
        classes_and_codes.append(classes[i] + ": " + codes[i])
         
+    form1 = CourseID()
+    if form1.validate_on_submit():
+        return redirect(url_for('output', course_num = form1.courseID.data))   
 
     return render_template('output.html', title = 'Output',
-                           course_num = course_num, info = info, button = ret,
+                           course_num = course_num, info = info, form = form1,
                            classes = classes_and_codes)
     
-
-
 
 if __name__ == '__main__':
     app.run(debug = True)
